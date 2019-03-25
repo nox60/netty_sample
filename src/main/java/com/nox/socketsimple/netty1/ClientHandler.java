@@ -29,12 +29,9 @@ public class ClientHandler extends ChannelHandlerAdapter {
         Attribute<String> attr = ctx.channel().attr(nameAttrKey);
         String name= "";
 
-        byte[] o = attr.get().getBytes();
-
-        String str = new String( o, StandardCharsets.UTF_8);
 
         try{
-            System.out.println("    ===============  "+str);
+            System.out.println("    ===============  "+attr.get());
         }catch (Exception e){
             e.printStackTrace();
         }

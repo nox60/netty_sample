@@ -46,9 +46,9 @@ public class Client extends Thread {
             Attribute<byte[]> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
             srcdataAttr.set(mydata);*/
 
-            AttributeKey<byte[]> srcdataAttrKey = AttributeKey.valueOf("topic");
-            Attribute<byte[]> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
-            srcdataAttr.set(body.getBytes());
+            AttributeKey<String> srcdataAttrKey = AttributeKey.valueOf("topic");
+            Attribute<String> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
+            srcdataAttr.set(body);
 
 
         } catch (InterruptedException e) {
