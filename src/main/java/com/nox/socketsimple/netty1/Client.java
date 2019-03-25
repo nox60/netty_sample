@@ -8,6 +8,8 @@ import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 /**
  * Created by LiuLi on 2018/5/8.
@@ -37,11 +39,23 @@ public class Client extends Thread {
         try {
             cf1 = b.connect("127.0.0.1", 8765).sync();
             System.out.println("客户端："+cf1.channel().id()+"关注"+this.body);
+
+            /*
+            AttributeKey<byte[]> srcdataAttrKey = AttributeKey.valueOf(body);
+            byte[] mydata = "body".getBytes();
+            Attribute<byte[]> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
+            srcdataAttr.set(mydata);*/
+
+            AttributeKey<byte[]> srcdataAttrKey = AttributeKey.valueOf("topic");
+            Attribute<byte[]> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
+            srcdataAttr.set(body.getBytes());
+
+
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        //ChannelFuture cf2 = b.connect("127.0.0.1", 8764).sync();  //可以使用多个端口
-        //发送消息, Buffer类型. write需要flush才发送, 可用writeFlush代替
+        //Channe
+        // 息, Buffer类型. write需要flush才发送, 可用writeFlush代替
         cf1.channel().writeAndFlush(Unpooled.copiedBuffer(this.body.getBytes()));
 
         try {
@@ -49,6 +63,9 @@ public class Client extends Thread {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
+
+
         //cf2.channel().closeFuture().sync();
         //group.shutdownGracefully();
     }

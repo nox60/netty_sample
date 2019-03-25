@@ -48,7 +48,7 @@ public class Server {
         Scanner input = new Scanner(System.in);
         String val = null;       // 记录输入的字符串
         do {
-            System.out.print("请输入：");
+            System.out.println("请输入：");
             val = input.next();       // 等待输入值
             System.out.println("您输入的是：" + val);
             MyTopic myTopic = Topics.topics.get(val);
