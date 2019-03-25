@@ -16,10 +16,10 @@ import io.netty.util.AttributeKey;
  */
 public class Client extends Thread {
 
-    private String body;
+    private String topic;
 
     public Client(String body) {
-        this.body = body;
+        this.topic = body;
     }
 
     @Override
@@ -31,24 +31,18 @@ public class Client extends Thread {
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel sc) throws Exception {
-                        sc.pipeline().addLast(new ClientHandler());
+                        sc.pipeline().addLast(new ClientHandler(topic));
                     }
                 });
 
         ChannelFuture cf1 = null;
         try {
             cf1 = b.connect("127.0.0.1", 8765).sync();
-            System.out.println("客户端："+cf1.channel().id()+"关注"+this.body);
-
-            /*
-            AttributeKey<byte[]> srcdataAttrKey = AttributeKey.valueOf(body);
-            byte[] mydata = "body".getBytes();
-            Attribute<byte[]> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
-            srcdataAttr.set(mydata);*/
+            System.out.println("客户端：" + cf1.channel().id() + "关注" + this.topic);
 
             AttributeKey<String> srcdataAttrKey = AttributeKey.valueOf("topic");
             Attribute<String> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
-            srcdataAttr.set(body);
+            srcdataAttr.set(topic);
 
 
         } catch (InterruptedException e) {
@@ -56,14 +50,13 @@ public class Client extends Thread {
         }
         //Channe
         // 息, Buffer类型. write需要flush才发送, 可用writeFlush代替
-        cf1.channel().writeAndFlush(Unpooled.copiedBuffer(this.body.getBytes()));
+        cf1.channel().writeAndFlush(Unpooled.copiedBuffer(this.topic.getBytes()));
 
         try {
             cf1.channel().closeFuture().sync();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-
 
 
         //cf2.channel().closeFuture().sync();
