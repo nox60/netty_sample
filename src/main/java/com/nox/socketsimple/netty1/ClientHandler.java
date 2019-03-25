@@ -12,7 +12,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("channelActive");
+        System.out.println("channelActive, the channel id is " + ctx.channel().id());
     }
 
     @Override
@@ -22,7 +22,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
             byte[] req = new byte[buf.readableBytes()];
             buf.readBytes(req);
             String body = new String(req, "utf-8");
-            System.out.println("Client :" + body);
+            System.out.println("Client ---- :" + body);
         } finally {
             // 记得释放xxxHandler里面的方法的msg参数: 写(write)数据, msg引用将被自动释放不用手动处理; 但只读数据时,!必须手动释放引用数
             ReferenceCountUtil.release(msg);

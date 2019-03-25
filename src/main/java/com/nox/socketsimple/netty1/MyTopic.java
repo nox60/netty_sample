@@ -1,5 +1,6 @@
 package com.nox.socketsimple.netty1;
 
+import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
 
 import java.util.ArrayList;
@@ -27,8 +28,10 @@ public class MyTopic implements Subject {
     @Override
     public void notifyObservers(Object msgBody) {
         for (ChannelHandlerContext obj : this.observers) {
+            System.out.println("需要通知客户端");
             try {
-                obj.writeAndFlush(msgBody.toString() + ", 发生时间：" + System.currentTimeMillis());
+                String finalString = msgBody.toString() + ", 发生时间：" + System.currentTimeMillis();
+                obj.writeAndFlush(Unpooled.copiedBuffer(finalString.getBytes()));
             } catch (Exception e) {
                 e.printStackTrace();
             }

@@ -36,6 +36,7 @@ public class Client extends Thread {
         ChannelFuture cf1 = null;
         try {
             cf1 = b.connect("127.0.0.1", 8765).sync();
+            System.out.println("客户端："+cf1.channel().id()+"关注"+this.body);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
