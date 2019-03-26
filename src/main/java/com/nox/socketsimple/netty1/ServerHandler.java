@@ -4,6 +4,8 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.util.Attribute;
+import io.netty.util.AttributeKey;
 
 /**
  * Created by LiuLi on 2018/5/8.
@@ -17,6 +19,8 @@ public class ServerHandler extends ChannelHandlerAdapter {
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         //System.out.println("server channel active... ");
         //System.out.println("channelActive");
+
+
     }
 
     @Override
@@ -25,18 +29,32 @@ public class ServerHandler extends ChannelHandlerAdapter {
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         String body = new String(req, "utf-8");
-        //  System.out.println("客户端关注 :" + body);
-        //解析body，关注到需要关注的对象上，首先要判断该对象是否在topics的map里，如果不在，则创建
-        MyTopic myTopic = null;
-        if (!Topics.topics.containsKey(body.toString())) {
-            myTopic = new MyTopic();
-            myTopic.register(ctx);
-            System.out.println("新关注的客户端，客户端ID：" + ctx.channel().id() + ",关注主题:" + body);
-        } else {
-            myTopic = Topics.topics.get(body.toString());
-            myTopic.register(ctx);
+
+        System.out.println("message body: " + body);
+
+        if ( body != null && body.contains("TOPIC_SET") ){
+
+
+            AttributeKey<String> nameAttrKey = AttributeKey.valueOf("topic");
+
+            Attribute<String> attr = ctx.channel().attr(nameAttrKey);
+
+            String topicName = attr.get();
+
+            System.out.println(body+"!!!"+topicName);
+
+
+            MyTopic myTopic = null;
+            if (!Topics.topics.containsKey(topicName)) {
+                myTopic = new MyTopic();
+                myTopic.register(ctx);
+                System.out.println("新关注的客户端，客户端ID：" + ctx.channel().id() + ",关注主题:" + topicName);
+            } else {
+                myTopic = Topics.topics.get(topicName);
+                myTopic.register(ctx);
+            }
+            Topics.topics.put(topicName, myTopic);
         }
-        Topics.topics.put(body.toString(), myTopic);
 
         String response = "返回给客户端的响应：" + body;
         

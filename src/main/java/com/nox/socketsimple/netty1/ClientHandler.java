@@ -14,8 +14,10 @@ import java.nio.charset.StandardCharsets;
  */
 public class ClientHandler extends ChannelHandlerAdapter {
 
-    public ClientHandler(String a){
+    private String topic;
 
+    public ClientHandler(String topic){
+        this.topic = topic;
     }
 
 

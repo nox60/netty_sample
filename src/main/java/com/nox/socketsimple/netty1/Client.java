@@ -44,13 +44,17 @@ public class Client extends Thread {
             Attribute<String> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
             srcdataAttr.set(topic);
 
+            Thread.sleep(3000);
+
+            //发送消息告诉服务端: 设置了关注的主题
+            cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
         //Channe
         // 息, Buffer类型. write需要flush才发送, 可用writeFlush代替
-        cf1.channel().writeAndFlush(Unpooled.copiedBuffer(this.topic.getBytes()));
+        //cf1.channel().writeAndFlush(Unpooled.copiedBuffer(this.topic.getBytes()));
 
         try {
             cf1.channel().closeFuture().sync();
