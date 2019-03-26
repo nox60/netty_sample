@@ -38,13 +38,11 @@ public class Client extends Thread {
         ChannelFuture cf1 = null;
         try {
             cf1 = b.connect("127.0.0.1", 8765).sync();
-            System.out.println("客户端：" + cf1.channel().id() + "关注" + this.topic);
+            //System.out.println("客户端：" + cf1.channel().id() + "关注" + this.topic);
 
             AttributeKey<String> srcdataAttrKey = AttributeKey.valueOf("topic");
             Attribute<String> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
             srcdataAttr.set(topic);
-
-
 
             //发送消息告诉服务端: 设置了关注的主题
             //cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));

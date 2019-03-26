@@ -32,20 +32,21 @@ public class ClientHandler extends ChannelHandlerAdapter {
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
 
-        System.out.println("打印topic");
+        //System.out.println("打印topic");
 
         AttributeKey<String> nameAttrKey = AttributeKey.valueOf("topic");
 
         Attribute<String> attr = ctx.channel().attr(nameAttrKey);
 
-        System.out.println("  ===============  " + attr.get());
+        //System.out.println("  ===============  " + attr.get());
 
         try {
             ByteBuf buf = (ByteBuf) msg;
             byte[] req = new byte[buf.readableBytes()];
             buf.readBytes(req);
             String body = new String(req, "utf-8");
-            System.out.println("Client ---- : client id is: " + ctx.channel().id() + body);
+            System.out.println(body);
+            //System.out.println("Client ---- : client id is: " + ctx.channel().id() + body);
         } finally {
             // 记得释放xxxHandler里面的方法的msg参数: 写(write)数据, msg引用将被自动释放不用手动处理; 但只读数据时,!必须手动释放引用数
             ReferenceCountUtil.release(msg);

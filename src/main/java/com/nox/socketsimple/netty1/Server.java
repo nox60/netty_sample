@@ -52,7 +52,7 @@ public class Server {
             val = input.next();       // 等待输入值
             System.out.println("您输入的是：" + val);
             MyTopic myTopic = Topics.topics.get(val);
-            myTopic.notifyObservers("消息");
+            myTopic.notifyObservers("发送消息通知监听的客户端");
         } while (!val.equals("#"));   // 如果输入的值不是#就继续输入
         System.out.println("你输入了\"#\"，程序已经退出！");
         input.close(); // 关闭资源

@@ -24,34 +24,41 @@ public class ServerHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
-        System.out.println("-----------------------");
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
         String body = new String(req, "utf-8");
 
-        System.out.println("message body: " + body);
+       // System.out.println("message body: " + body);
 
-        if ( body != null && body.contains("TOPIC_SET") ){
-
-            String topicName = body.replace("TOPIC_SET||","");
+        if (body != null && body.indexOf("TOPIC_SELECT") > -1 ) {
+         //   System.out.println("TOPIC_SELECT ----- "+body);
+            String topicName = body.replace("TOPIC_SELECT||", "");
 
             //从消息中解析出关注的topic
 
             MyTopic myTopic = null;
-            if (!Topics.topics.containsKey(topicName)) {
-                myTopic = new MyTopic();
-                myTopic.register(ctx);
-                System.out.println("新关注的客户端，客户端ID：" + ctx.channel().id() + ",关注主题:" + topicName);
-            } else {
-                myTopic = Topics.topics.get(topicName);
-                myTopic.register(ctx);
+            MyChannel myChannel = new MyChannel();
+
+            try{
+                if (!Topics.topics.containsKey(topicName)) {
+                    myTopic = new MyTopic();
+                    myChannel.setChannel(ctx.channel());
+                    myTopic.register(myChannel);
+                    System.out.println("新关注的客户端，客户端ID：" + ctx.channel().id() + ",关注主题:" + topicName);
+                } else {
+                    myTopic = Topics.topics.get(topicName);
+                    myTopic.register(myChannel);
+                }
+                Topics.topics.put(topicName, myTopic);
+            }catch(Exception e){
+                e.printStackTrace();
             }
-            Topics.topics.put(topicName, myTopic);
+
         }
 
         String response = "返回给客户端的响应：" + body;
-        
+
         ctx.writeAndFlush(Unpooled.copiedBuffer(response.getBytes()));
 
         // future完成后触发监听器, 此处是写完即关闭(短连接). 因此需要关闭连接时, 要通过server端关闭. 直接关闭用方法ctx[.channel()].close()
@@ -66,7 +73,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
     @Override
     public void channelReadComplete(ChannelHandlerContext ctx)
             throws Exception {
-        //System.out.println("读完了");
+        System.out.println("读完了");
         ctx.flush();
         //System.out.println("channelReadComplete");
     }
