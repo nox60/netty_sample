@@ -44,6 +44,7 @@ public class Client extends Thread {
             Attribute<String> srcdataAttr = cf1.channel().attr(srcdataAttrKey);
             srcdataAttr.set(topic);
 
+
             Thread.sleep(3000);
 
             //发送消息告诉服务端: 设置了关注的主题
