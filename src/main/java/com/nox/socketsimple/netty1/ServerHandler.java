@@ -20,11 +20,11 @@ public class ServerHandler extends ChannelHandlerAdapter {
         //System.out.println("server channel active... ");
         //System.out.println("channelActive");
 
-
     }
 
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("-----------------------");
         ByteBuf buf = (ByteBuf) msg;
         byte[] req = new byte[buf.readableBytes()];
         buf.readBytes(req);
@@ -34,15 +34,9 @@ public class ServerHandler extends ChannelHandlerAdapter {
 
         if ( body != null && body.contains("TOPIC_SET") ){
 
+            String topicName = body.replace("TOPIC_SET||","");
 
-            AttributeKey<String> nameAttrKey = AttributeKey.valueOf("topic");
-
-            Attribute<String> attr = ctx.channel().attr(nameAttrKey);
-
-            String topicName = attr.get();
-
-            System.out.println(body+"!!!"+topicName);
-
+            //从消息中解析出关注的topic
 
             MyTopic myTopic = null;
             if (!Topics.topics.containsKey(topicName)) {

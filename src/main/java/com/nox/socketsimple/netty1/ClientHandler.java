@@ -23,7 +23,10 @@ public class ClientHandler extends ChannelHandlerAdapter {
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
+        System.out.println("active, the topic is "+topic);
+        ctx.channel().writeAndFlush("TOPIC_SELECT||"+topic);
         //System.out.println("channelActive, the channel id is " + ctx.channel().id());
+
     }
 
     @Override

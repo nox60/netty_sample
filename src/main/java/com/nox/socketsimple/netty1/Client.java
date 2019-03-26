@@ -45,10 +45,10 @@ public class Client extends Thread {
             srcdataAttr.set(topic);
 
 
-            Thread.sleep(3000);
 
             //发送消息告诉服务端: 设置了关注的主题
-            cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));
+            //cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));
+            cf1.channel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_SELECT||"+topic).getBytes()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();
