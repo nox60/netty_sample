@@ -3,6 +3,7 @@ package com.nox.socketsimple.netty1;
 import io.netty.buffer.ByteBuf;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 import io.netty.util.ReferenceCountUtil;
@@ -12,14 +13,35 @@ import java.nio.charset.StandardCharsets;
 /**
  * Created by LiuLi on 2018/5/8.
  */
-public class ClientHandler extends ChannelHandlerAdapter {
+public class ClientHandler extends ChannelInboundHandlerAdapter {
 
     private String topic;
 
-    public ClientHandler(String topic){
+    public ClientHandler(String topic) {
         this.topic = topic;
     }
 
+
+    @Override
+    public void channelActive(ChannelHandlerContext ctx) {
+        System.out.println("HelloWorldClientHandler Active");
+    }
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) {
+        System.out.println("HelloWorldClientHandler read Message:" + msg);
+    }
+
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
+        //cause.printStackTrace();
+        ctx.close();
+    }
+
+
+
+    /*
 
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
@@ -65,4 +87,6 @@ public class ClientHandler extends ChannelHandlerAdapter {
         //System.out.println("exceptionCaught");
         ctx.close();
     }
+
+    */
 }

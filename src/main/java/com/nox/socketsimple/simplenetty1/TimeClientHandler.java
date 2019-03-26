@@ -9,6 +9,8 @@ import io.netty.channel.ChannelHandlerContext;
  * Created by LiuLi on 2018/3/28.
  */
 public class TimeClientHandler extends ChannelHandlerAdapter {
+
+    /*
     private final ByteBuf firstMessage;
 
     public TimeClientHandler() {
@@ -42,4 +44,6 @@ public class TimeClientHandler extends ChannelHandlerAdapter {
         System.out.println("Unexpected exception from downstream: " + cause.getMessage());
         channelHandlerContext.close();
     }
+
+    */
 }

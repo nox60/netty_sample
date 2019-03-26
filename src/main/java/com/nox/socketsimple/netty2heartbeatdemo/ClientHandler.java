@@ -11,6 +11,8 @@ import io.netty.util.ReferenceCountUtil;
  */
 public class ClientHandler extends ChannelHandlerAdapter {
 
+    /*
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         //发送消息给server
@@ -57,7 +59,7 @@ public class ClientHandler extends ChannelHandlerAdapter {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         System.out.println("5 seconds have not received message from server side -------------------------- ");
-        /*
+
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
@@ -70,6 +72,8 @@ public class ClientHandler extends ChannelHandlerAdapter {
             }
         } else {
             super.userEventTriggered(ctx, evt);
-        }*/
-    }
+        }
+    }*/
+
+
 }

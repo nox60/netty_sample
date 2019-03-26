@@ -4,10 +4,13 @@ import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelInitializer;
+import io.netty.channel.ChannelOption;
 import io.netty.channel.EventLoopGroup;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
+import io.netty.handler.codec.string.StringDecoder;
+import io.netty.handler.codec.string.StringEncoder;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
@@ -27,10 +30,12 @@ public class Client extends Thread {
         EventLoopGroup group = new NioEventLoopGroup();
         Bootstrap b = new Bootstrap();
         b.group(group)
-                .channel(NioSocketChannel.class)
+                .channel(NioSocketChannel.class).option(ChannelOption.TCP_NODELAY, true)
                 .handler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel sc) throws Exception {
+                        sc.pipeline().addLast("decoder", new StringDecoder());
+                        sc.pipeline().addLast("encoder", new StringEncoder());
                         sc.pipeline().addLast(new ClientHandler(topic));
                     }
                 });
@@ -46,7 +51,7 @@ public class Client extends Thread {
 
             //发送消息告诉服务端: 设置了关注的主题
             //cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));
-            cf1.channel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_SELECT||"+topic).getBytes()));
+            cf1.channel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_SELECT||" + topic).getBytes()));
 
         } catch (InterruptedException e) {
             e.printStackTrace();

@@ -4,13 +4,33 @@ import io.netty.buffer.ByteBuf;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerAdapter;
 import io.netty.channel.ChannelHandlerContext;
+import io.netty.channel.ChannelInboundHandlerAdapter;
 import io.netty.util.Attribute;
 import io.netty.util.AttributeKey;
 
 /**
  * Created by LiuLi on 2018/5/8.
  */
-public class ServerHandler extends ChannelHandlerAdapter {
+public class ServerHandler extends ChannelInboundHandlerAdapter {
+
+
+    @Override
+    public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
+        System.out.println("server channelRead..");
+        System.out.println(ctx.channel().remoteAddress() + "->Server :" + msg.toString());
+        ctx.write("server write" + msg);
+        ctx.flush();
+    }
+
+    @Override
+    public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) throws Exception {
+        //cause.printStackTrace();
+        ctx.close();
+    }
+
+
+
+    /*
 
     //这里将ctx缓存起来，以便 sendMsg方法使用，但是这里不够了解ctx的底层细节，需要去研究是否会出问题。
     private ChannelHandlerContext ctx;
@@ -84,4 +104,5 @@ public class ServerHandler extends ChannelHandlerAdapter {
         ctx.close();
         //System.out.println("exceptionCaught");
     }
+    */
 }

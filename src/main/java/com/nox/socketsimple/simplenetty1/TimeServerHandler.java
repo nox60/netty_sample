@@ -9,7 +9,7 @@ import io.netty.channel.ChannelHandlerContext;
  * Created by LiuLi on 2018/3/28.
  */
 public class TimeServerHandler extends ChannelHandlerAdapter {
-
+    /*
     @Override
     public void channelRead(ChannelHandlerContext ctx, Object msg) throws Exception {
         ByteBuf buf = (ByteBuf) msg;
@@ -32,5 +32,5 @@ public class TimeServerHandler extends ChannelHandlerAdapter {
     public void exceptionCaught(ChannelHandlerContext ctx, Throwable cause) {
         ctx.close();
     }
-
+    */
 }

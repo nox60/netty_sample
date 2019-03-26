@@ -11,6 +11,8 @@ import io.netty.util.ReferenceCountUtil;
  */
 public class ClientHandler extends ChannelHandlerAdapter {
 
+    /*
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         //发送消息给server
@@ -49,4 +51,6 @@ public class ClientHandler extends ChannelHandlerAdapter {
         System.out.println("exceptionCaught");
         ctx.close();
     }
+
+    */
 }

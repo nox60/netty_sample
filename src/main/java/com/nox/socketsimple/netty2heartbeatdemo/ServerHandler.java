@@ -12,6 +12,8 @@ import io.netty.handler.timeout.IdleStateEvent;
  */
 public class ServerHandler extends ChannelHandlerAdapter {
 
+    /*
+
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
         System.out.println("server channel active... ");
@@ -52,7 +54,7 @@ public class ServerHandler extends ChannelHandlerAdapter {
     @Override
     public void userEventTriggered(ChannelHandlerContext ctx, Object evt) throws Exception {
         System.out.println("5 seconds have not received message from client side");
-        /*
+
         if (evt instanceof IdleStateEvent) {
             IdleStateEvent event = (IdleStateEvent) evt;
             if (event.state() == IdleState.READER_IDLE) {
@@ -65,6 +67,6 @@ public class ServerHandler extends ChannelHandlerAdapter {
             }
         } else {
             super.userEventTriggered(ctx, evt);
-        }*/
-    }
+        }
+    }*/
 }
