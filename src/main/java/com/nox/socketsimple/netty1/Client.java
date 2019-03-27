@@ -2,10 +2,7 @@ package com.nox.socketsimple.netty1;
 
 import io.netty.bootstrap.Bootstrap;
 import io.netty.buffer.Unpooled;
-import io.netty.channel.ChannelFuture;
-import io.netty.channel.ChannelInitializer;
-import io.netty.channel.ChannelOption;
-import io.netty.channel.EventLoopGroup;
+import io.netty.channel.*;
 import io.netty.channel.nio.NioEventLoopGroup;
 import io.netty.channel.socket.SocketChannel;
 import io.netty.channel.socket.nio.NioSocketChannel;
@@ -25,6 +22,16 @@ public class Client extends Thread {
         this.topic = body;
     }
 
+    private Channel channel = null;
+
+    public Channel getChannel(){
+        return this.channel;
+    }
+
+    public void setChannel(Channel channel){
+        this.channel = channel;
+    }
+
     @Override
     public void run() {
         EventLoopGroup group = new NioEventLoopGroup();
@@ -39,10 +46,10 @@ public class Client extends Thread {
                         sc.pipeline().addLast(new ClientHandler(topic));
                     }
                 });
-
         ChannelFuture cf1 = null;
         try {
             cf1 = b.connect("127.0.0.1", 8765).sync();
+            setChannel(cf1.channel());
             //System.out.println("客户端：" + cf1.channel().id() + "关注" + this.topic);
 
             //AttributeKey<String> srcdataAttrKey = AttributeKey.valueOf("topic");
