@@ -27,10 +27,10 @@ public class Server {
         ServerBootstrap b = new ServerBootstrap();
         b.group(pGroup, cGroup) // 绑定俩个线程组
                 .channel(NioServerSocketChannel.class) // 指定NIO的模式.NioServerSocketChannel对应TCP, NioDatagramChannel对应UDP
-                .option(ChannelOption.SO_BACKLOG, 1024) // 设置TCP缓冲区
-                .option(ChannelOption.SO_SNDBUF, 32 * 1024) // 设置发送缓冲大小
-                .option(ChannelOption.SO_RCVBUF, 32 * 1024) // 这是接收缓冲大小
-                .option(ChannelOption.SO_KEEPALIVE, true) // 保持连接
+                //.option(ChannelOption.SO_BACKLOG, 1024) // 设置TCP缓冲区
+                //.option(ChannelOption.SO_SNDBUF, 32 * 1024) // 设置发送缓冲大小
+                //.option(ChannelOption.SO_RCVBUF, 32 * 1024) // 这是接收缓冲大小
+               //.option(ChannelOption.SO_KEEPALIVE, true) // 保持连接
                 .childHandler(new ChannelInitializer<SocketChannel>() {
                     @Override
                     protected void initChannel(SocketChannel sc) throws Exception {  //SocketChannel建立连接后的管道

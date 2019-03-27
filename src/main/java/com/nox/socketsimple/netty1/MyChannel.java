@@ -21,6 +21,8 @@ public class MyChannel  {
     //重写equel方法。保证能够放入list
     @Override
     public boolean equals(Object obj) {
+        if( null == channel && obj != null ) return false;
+        if( null == channel && obj == null ) return true;
         if (obj instanceof MyChannel) {
             MyChannel b = (MyChannel) obj;
             return this.channel.id().equals(b.channel.id());

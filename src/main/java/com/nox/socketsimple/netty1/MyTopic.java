@@ -16,7 +16,6 @@ public class MyTopic implements Subject {
     @Override
     public void register(MyChannel obj) {
         if (!observers.contains(obj))
-
             observers.add(obj);
     }
 
