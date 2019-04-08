@@ -60,9 +60,20 @@ public class ServerHandler extends ChannelInboundHandlerAdapter {
                     e.printStackTrace();
                 }
             }
+        } else if ( body != null && body.indexOf("TOPIC_UPDATE") > -1 ) {
+            //   System.out.println("TOPIC_SELECT ----- "+body);
+            String topicName = body.replace("TOPIC_UPDATE||", "");
+
+            //从消息中解析出关注的topic
+            MyTopic myTopic = Topics.topics.get(topicName);
+            MyChannel myChannel = new MyChannel();
+            myTopic = Topics.topics.get(topicName);
+
+            myTopic.notifyObservers(topicName + "发送消息通知监听的客户端");
         }
 
-        //ctx.channel().writeAndFlush(Unpooled.copiedBuffer(("server write some thing to client").getBytes()));
+        //ctx.channel().writeAndFlush(Unpooled.copiedBuffer(("server
+        // write some thing to client").getBytes()));
 
     }
 

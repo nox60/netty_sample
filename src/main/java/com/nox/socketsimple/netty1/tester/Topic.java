@@ -1,12 +1,17 @@
 package com.nox.socketsimple.netty1.tester;
 
 import com.nox.socketsimple.netty1.Client;
+import io.netty.buffer.Unpooled;
+
 import java.util.Scanner;
 
 public class Topic {
     public static void main(String args[]) {
         Client topic1 = new Client("topic1");
         Client topic2 = new Client("topic2");
+
+        topic1.setType(1);
+        topic2.setType(1);
 
         topic1.start();
         topic2.start();
@@ -18,6 +23,12 @@ public class Topic {
             System.out.println("请输入：");
             val = input.next();       // 等待输入值
             System.out.println("您输入的是：" + val);
+
+            if( val.equals("topic1") ){
+                topic1.getChannel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_UPDATE||" + val).getBytes()));
+            } else {
+                topic2.getChannel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_UPDATE||" + val).getBytes()));
+            }
 
         } while (!val.equals("#"));   // 如果输入的值不是#就继续输入
         System.out.println("你输入了\"#\"，程序已经退出！");

@@ -22,13 +22,15 @@ public class Client extends Thread {
         this.topic = body;
     }
 
+    private int type = 0;
+
     private Channel channel = null;
 
-    public Channel getChannel(){
+    public Channel getChannel() {
         return this.channel;
     }
 
-    public void setChannel(Channel channel){
+    public void setChannel(Channel channel) {
         this.channel = channel;
     }
 
@@ -58,7 +60,10 @@ public class Client extends Thread {
 
             //发送消息告诉服务端: 设置了关注的主题
             //cf1.channel().writeAndFlush(Unpooled.copiedBuffer("TOPIC_SET".getBytes()));
-            cf1.channel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_SELECT||" + topic).getBytes()));
+
+            if (type == 0) {
+                cf1.channel().writeAndFlush(Unpooled.copiedBuffer(("TOPIC_SELECT||" + topic).getBytes()));
+            } 
 
         } catch (InterruptedException e) {
             e.printStackTrace();
@@ -84,5 +89,13 @@ public class Client extends Thread {
         new Client("a").start();
         new Client("a").start();
         new Client("c").start();
+    }
+
+    public int getType() {
+        return type;
+    }
+
+    public void setType(int type) {
+        this.type = type;
     }
 }
