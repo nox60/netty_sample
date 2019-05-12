@@ -1,4 +1,2 @@
 # netty_sample
 
-
-
