@@ -9,12 +9,14 @@ import io.netty.channel.ChannelInboundHandlerAdapter;
 public class BaseClient1Handler extends ChannelInboundHandlerAdapter {
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        System.out.println("BaseClient1Handler channelActive");
+        System.out.println("BaseClient1Handler channelActive  1111 ");
 
         /*
          * 唤醒下一个Handler的相关方法
          */
         ctx.fireChannelActive();
+        System.out.println("------------------------------------------");
+
         ctx.fireChannelRead("");
     }
 
